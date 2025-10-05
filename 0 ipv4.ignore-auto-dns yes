@@ -1,0 +1,30 @@
+[0;1;39mGlobal[0m
+           Protocols: -LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+    resolv.conf mode: stub
+         DNS Servers: 1.1.1.1 1.0.0.1
+Fallback DNS Servers: 8.8.8.8 8.8.4.4
+
+[0;1;39mLink 2 (enp1s0)[0m
+Current Scopes: none
+     Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+
+[0;1;39mLink 3 (wlp2s0)[0m
+Current Scopes: DNS
+     Protocols: +DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+   DNS Servers: 192.168.1.1
+
+[0;1;39mLink 4 (br-15860322bfe0)[0m
+Current Scopes: none
+     Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+
+[0;1;39mLink 5 (br-1af6bd92aeb9)[0m
+Current Scopes: none
+     Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+
+[0;1;39mLink 6 (docker0)[0m
+Current Scopes: none
+     Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
+
+[0;1;39mLink 7 (veth4c3ab1a)[0m
+Current Scopes: none
+     Protocols: -DefaultRoute +LLMNR -mDNS -DNSOverTLS DNSSEC=no/unsupported
