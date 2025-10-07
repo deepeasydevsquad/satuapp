@@ -15,9 +15,9 @@ COPY . .
 
 
 # --- Tambahkan variabel build di sini ---
-ARG VITE_PORT
+# ARG VITE_PORT
 # Set environment variables untuk Vite
-ENV VITE_PORT=$VITE_PORT
+# ENV VITE_PORT=$VITE_PORT
 RUN npm run build
 
 # ========================
