@@ -6,98 +6,90 @@ import {
   useGlobalActiveTab,
   useTabTerpilih,
   globalSelectMenu,
-} from '../../../../stores/sidebar'
+} from '@/stores/sidebar';
+import { SettingStore } from '@/stores/settings';
+import { ref, defineProps, watch, onMounted } from 'vue';
 
-import {
-  SettingStore
-} from '../../../../stores/settings'
-
-// import { ref, onMounted } from 'vue'
-
-
-import { ref, defineProps, watch, onMounted } from 'vue'
-
-
-const target = ref(null)
-const sidebarStore = useSidebarStore() // untuk sidebar
-const selectedTab = useSelectedTab()
-const activeTab = useGlobalActiveTab()
-const globaltab = useGlobalTab()
-// const Setting = SettingStore()
-const SettingGlob = SettingStore()
-const tabTerpilih = useTabTerpilih()
-const sideBarPage = globalSelectMenu()
-// const sideBarPage = ref('')
+const target = ref(null);
+const sidebarStore = useSidebarStore(); // untuk sidebar
+const selectedTab = useSelectedTab();
+const activeTab = useGlobalActiveTab();
+const globaltab = useGlobalTab();
+const SettingGlob = SettingStore();
+const tabTerpilih = useTabTerpilih();
+const sideBarPage = globalSelectMenu();
 const logo = ref('default.png');
+const subMenuActive = ref('');
 
-const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL
+const BASE_URL = import.meta.env.VITE_APP_API_BASE_URL;
 
 interface MenuInfo {
-  menu: Record<string, any>
-  submenu: Record<string, any>
-  tab: Record<string, any>
+  menu: Record<string, any>;
+  submenu: Record<string, any>;
+  tab: Record<string, any>;
 }
 
 const subMenuClick = (menuname: string, name: string, path: string, tab: any) => {
-  selectedTab.clearArray()
-  activeTab.clearString()
+  subMenuActive.value = path;
+  selectedTab.clearArray();
+  activeTab.clearString();
   for (const x in tab) {
-    selectedTab.addItem(tab[x])
+    selectedTab.addItem(tab[x]);
     if (activeTab.sharedString == '') {
-      activeTab.setString(globaltab.sharedObject[tab[x].id].path)
+      activeTab.setString(globaltab.sharedObject[tab[x].id].path);
     }
   }
-}
+};
 
 const menuClick = (name: string, path: string, tab: any) => {
   if (sideBarPage.sharedString === name) {
-    console.log('+++++++1')
-    sideBarPage.clearString()
+    console.log('+++++++1');
+    sideBarPage.clearString();
   } else {
-    console.log('+++++++2')
-    sideBarPage.setString(name)
+    console.log('+++++++2');
+    sideBarPage.setString(name);
   }
   if (path !== '#') {
-    tabTerpilih.setNumber(0)
-    selectedTab.clearArray()
-    activeTab.clearString()
+    subMenuActive.value = '';
+    tabTerpilih.setNumber(0);
+    selectedTab.clearArray();
+    activeTab.clearString();
     for (const x in tab) {
-      selectedTab.addItem(tab[x])
+      selectedTab.addItem(tab[x]);
       if (activeTab.sharedString == '') {
-        activeTab.setString(globaltab.sharedObject[tab[x].id].path)
+        activeTab.setString(globaltab.sharedObject[tab[x].id].path);
       }
     }
   }
-}
+};
 
 // Menerima menu_info sebagai props
 const props = defineProps<{
-  menu_info: MenuInfo | null
-}>()
+  menu_info: MenuInfo | null;
+}>();
 
-const dataRef = ref(props.menu_info)
+const dataRef = ref(props.menu_info);
 
 watch(
   () => props.menu_info,
   (newVal) => {
     if (newVal) {
-      dataRef.value = newVal
+      dataRef.value = newVal;
     }
   },
   { immediate: true },
-)
+);
 
 onMounted(() => {
   if (SettingGlob.sharedObject.logo) {
     logo.value = SettingGlob.sharedObject.logo;
   }
 });
-
 </script>
 
 <template>
   <aside
-    class="absolute left-0 top-0 z-9999 flex h-screen w-72.5 flex-col overflow-y-hidden bg-gradient-to-b  from-amra to-[#333a48] duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0"
+    class="absolute left-0 top-0 z-9999 flex h-screen w-72.5 bg-white flex-col overflow-y-hidden duration-300 ease-linear dark:bg-boxdark lg:static lg:translate-x-0"
     :class="{
       'translate-x-0': sidebarStore.isSidebarOpen,
       '-translate-x-full': !sidebarStore.isSidebarOpen,
@@ -106,9 +98,16 @@ onMounted(() => {
   >
     <div class="flex items-center justify-center gap-2 px-6 py-2.5 lg:py-3.5">
       <router-link to="/">
-        <img v-if="logo !== 'default.png'" :src="BASE_URL + '/uploads/pengaturan/' + logo " alt="Logo" class="h-14" />
-        <div v-else class="relative w-60 h-17 rounded-t-lg ">
-          <div  class="absolute inset-0 flex items-center justify-center text-white border-2 border-dashed border-white " >
+        <img
+          v-if="logo !== 'default.png'"
+          :src="BASE_URL + '/uploads/pengaturan/' + logo"
+          alt="Logo"
+          class="h-14"
+        />
+        <div v-else class="relative w-60 h-17 rounded-t-lg">
+          <div
+            class="absolute inset-0 flex items-center justify-center text-green-900 border-2 border-dashed border-green-900"
+          >
             <p class="text-xl font-semibold">Logo</p>
           </div>
         </div>
@@ -138,14 +137,14 @@ onMounted(() => {
             <li v-for="(item, key) in menu_info?.menu" :key="key">
               <router-link
                 :to="''"
-                class="group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-bodydark1 duration-300 ease-in-out hover:bg-graydark dark:hover:bg-meta-4"
+                class="group relative flex items-center gap-2.5 rounded-md py-2 px-4 font-medium text-gray-500 duration-300 ease-in-out hover:bg-graydark hover:text-white dark:hover:bg-meta-4"
                 @click="menuClick(item.name, item.path, item.tab)"
                 :class="{
-                  'bg-graydark dark:bg-meta-4': sideBarPage.sharedString === item.name,
+                  'bg-graydark text-white dark:bg-meta-4': sideBarPage.sharedString === item.name,
                 }"
               >
                 <font-awesome-icon :icon="item.icon" :style="{ width: '30px' }" />
-                {{ item.name }}
+                {{ item.name }} <br />
                 <svg
                   v-if="item.path === '#'"
                   class="absolute right-4 top-1/2 -translate-y-1/2 fill-current"
@@ -173,12 +172,17 @@ onMounted(() => {
                   <li v-for="(item1, keys) in menu_info?.submenu[item.id]" :key="keys">
                     <router-link
                       :to="''"
-                      class="group relative flex items-center gap-2.5 rounded-md px-4 my-2 font-medium text-white duration-300 ease-in-out hover:text-white"
-                      :class="{
-                        '!text-white': item1.name === sidebarStore.selected,
-                      }"
+                      class="group relative flex items-center gap-2.5 rounded-md px-4 my-2 duration-300 ease-in-out"
+                      :class="
+                        subMenuActive == item1.path
+                          ? 'text-green-900 font-semibold hover:text-green-700'
+                          : 'text-gray-500 hover:text-gray-400 font-medium '
+                      "
                       @click="subMenuClick(item.name, item1.name, item1.path, item1.tab)"
                     >
+                      <!-- :class="{
+                        '!text-white': item1.name === sidebarStore.selected,
+                      }" -->
                       <font-awesome-icon :icon="['far', 'circle']" />
                       {{ item1.name }}
                     </router-link>

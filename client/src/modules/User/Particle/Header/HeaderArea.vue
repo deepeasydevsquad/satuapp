@@ -23,7 +23,9 @@ useHead({
   <header
     class="sticky top-0 z-999 flex w-full bg-white drop-shadow-1 dark:bg-boxdark dark:drop-shadow-none"
   >
-    <div class="flex flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11">
+    <div
+      class="flex bg-gradient-to-r from-green-900 from-5% to-white/0 to-100% flex-grow items-center justify-between py-4 px-4 shadow-2 md:px-6 2xl:px-11"
+    >
       <div class="flex items-center gap-2 sm:gap-4 lg:hidden">
         <!-- Hamburger Toggle BTN -->
         <button
@@ -65,8 +67,10 @@ useHead({
       </div>
       <div class="hidden sm:block">
         <span class="hidden text-left lg:block">
-          <span class="block text-sm font-bold text-amra dark:text-white">BERLANGGANAN SAMPAI</span>
-          <span class="block text-sm font-medium text-amra dark:text-white">{{
+          <span class="block text-sm font-bold text-white dark:text-white"
+            >BERLANGGANAN SAMPAI</span
+          >
+          <span class="block text-sm font-medium text-white dark:text-white">{{
             SettingGlob.sharedObject.tipe_berlangganan == 'limited'
               ? SettingGlob.sharedObject.akhir_berlangganan
               : 'unlimited'

@@ -1,116 +1,116 @@
 <script setup lang="ts">
-import HeaderArea from './Particle/Header/HeaderArea.vue'
-import SidebarArea from './Particle/Sidebar/SidebarArea.vue'
-import ContentViews from './Particle/Content/ContentViews.vue'
-import api from '../../service/api' // Impor file API
-import { ref, onMounted } from 'vue'
+import HeaderArea from './Particle/Header/HeaderArea.vue';
+import SidebarArea from './Particle/Sidebar/SidebarArea.vue';
+import ContentViews from './Particle/Content/ContentViews.vue';
+import api from '@/service/api'; // Impor file API
+import { ref, onMounted } from 'vue';
 
 // useGlobalTab
-import { useGlobalTab, useSelectedTab, globalSelectMenu } from '../../stores/sidebar'
-import { SettingStore } from '../../stores/settings'
+import { useGlobalTab, useSelectedTab, globalSelectMenu } from '@/stores/sidebar';
+import { SettingStore } from '@/stores/settings';
 
 // State error dan loading
-const isError = ref(false)
-const isLoading = ref(true)
+const isError = ref(false);
+const isLoading = ref(true);
 
-const globalTab = useGlobalTab() // menampung seluruh tab secara global
-const SettingGlob = SettingStore()
-const selectedTab = useSelectedTab()
-const selectMenu = globalSelectMenu()
+const globalTab = useGlobalTab(); // menampung seluruh tab secara global
+const SettingGlob = SettingStore();
+const selectedTab = useSelectedTab();
+const selectMenu = globalSelectMenu();
 
 // Interface yang sesuai dengan data dari server
 interface MenuItem {
-  id: number
-  name: string
-  path: string
-  icon: string
-  tab: null | any
+  id: number;
+  name: string;
+  path: string;
+  icon: string;
+  tab: null | any;
 }
 
 interface MenuInfo {
-  menu: Record<string, MenuItem>
-  submenu: Record<string, any>
-  tab: Record<string, any>
-  default_tab: Record<string, any>
+  menu: Record<string, MenuItem>;
+  submenu: Record<string, any>;
+  tab: Record<string, any>;
+  default_tab: Record<string, any>;
 }
 
 interface UserInfo {
-  company_code: string
-  username: string
-  type: string
+  company_code: string;
+  username: string;
+  type: string;
 }
 
 interface ServerResponse {
-  error: boolean
-  error_msg: string
-  menu_info: MenuInfo
-  user_info: UserInfo
+  error: boolean;
+  error_msg: string;
+  menu_info: MenuInfo;
+  user_info: UserInfo;
 }
 
-const activeDefaultTab = ref('')
+const activeDefaultTab = ref('');
 
 // Variabel untuk menyimpan data yang diambil dari API
-const menu_info = ref<MenuInfo | null>(null)
-const user_info = ref<UserInfo | null>(null)
-const tabAwal = ref()
+const menu_info = ref<MenuInfo | null>(null);
+const user_info = ref<UserInfo | null>(null);
+const tabAwal = ref();
 
 // Mengambil data dari API
 const fetchUsers = async () => {
   try {
-    const response = await api.get<ServerResponse>('/user') // Panggil API dan gunakan tipe yang benar
+    const response = await api.get<ServerResponse>('/user'); // Panggil API dan gunakan tipe yang benar
     if (response.status === 404) {
-      isError.value = true
+      isError.value = true;
     } else {
       // Menyimpan data ke dalam state
-      menu_info.value = response.data.menu_info
-      user_info.value = response.data.user_info
+      menu_info.value = response.data.menu_info;
+      user_info.value = response.data.user_info;
 
-      globalTab.clearObject()
+      globalTab.clearObject();
       for (const x in response.data.menu_info.tab) {
-        globalTab.addItem(x, response.data.menu_info.tab[x])
+        globalTab.addItem(x, response.data.menu_info.tab[x]);
       }
 
-      SettingGlob.clearObject()
+      SettingGlob.clearObject();
       for (const x in response.data.user_info) {
-        SettingGlob.addItem(x, response.data.user_info[x])
+        SettingGlob.addItem(x, response.data.user_info[x]);
       }
 
-      console.log("-----------//////");
+      console.log('-----------//////');
       console.log(SettingGlob.sharedObject);
-      console.log("-----------//////");
+      console.log('-----------//////');
 
-      const menu = response.data.menu_info.menu
-      const menuPertama = Object.values(menu)[0]
+      const menu = response.data.menu_info.menu;
+      const menuPertama = Object.values(menu)[0];
 
-      selectMenu.setString(menuPertama.name)
+      selectMenu.setString(menuPertama.name);
 
-      selectedTab.clearArray()
+      selectedTab.clearArray();
       if (menuPertama.path == '#') {
       } else {
         if (menuPertama.tab !== null) {
           for (const x in menuPertama.tab) {
-            selectedTab.addItem(menuPertama.tab[x])
+            selectedTab.addItem(menuPertama.tab[x]);
           }
         }
       }
-      isError.value = false // Reset error state jika berhasil
+      isError.value = false; // Reset error state jika berhasil
     }
-    isLoading.value = false
+    isLoading.value = false;
   } catch (error) {
-    isLoading.value = false
-    isError.value = true
-    console.error('Gagal mengambil data:', error)
+    isLoading.value = false;
+    isError.value = true;
+    console.error('Gagal mengambil data:', error);
   }
-}
+};
 
 setTimeout(() => {
   if (isLoading.value) {
-    isLoading.value = false
+    isLoading.value = false;
   }
-}, 1000)
+}, 1000);
 
 // Menunggu saat pertama kali mount
-onMounted(fetchUsers)
+onMounted(fetchUsers);
 </script>
 
 <template>

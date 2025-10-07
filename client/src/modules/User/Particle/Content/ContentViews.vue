@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { ref, onMounted } from 'vue';
+import { ref, onMounted, watch, nextTick } from 'vue';
 import { useSelectedTab, useGlobalTab, useGlobalActiveTab, useTabTerpilih } from '@/stores/sidebar';
 import 'flowbite';
-
+import { initTooltips } from 'flowbite';
 import BerandaUtama from '@/modules/BerandaUtama/BerandaUtama.vue';
 import TransPaket from '@/modules/TransPaket/TransPaket.vue';
 import DaftarKota from '@/modules/DaftarKota/DaftarKota.vue';
@@ -145,6 +145,15 @@ const selectTab = (tabPath: string, key: number) => {
   activeTab.setString(tabPath); // Menandai tab yang dipilih
   mulaiPilihTab.value = true;
 };
+
+watch(
+  () => selectedTab.sharedArray,
+  async () => {
+    await nextTick();
+    initTooltips();
+  },
+  { deep: true },
+);
 </script>
 
 <template>
@@ -162,7 +171,16 @@ const selectTab = (tabPath: string, key: number) => {
         v-for="(item, key) in selectedTab.sharedArray"
         :key="key"
       >
+        <div
+          :id="`tooltip-default-${tab.sharedObject[item.id].path}`"
+          role="tooltip"
+          class="absolute invisible inline-block px-3 py-2 text-sm font-medium text-white transition-opacity duration-300 bg-graydark rounded-lg shadow-xs opacity-0 tooltip dark:bg-gray-700 z-999999"
+        >
+          {{ tab.sharedObject[item.id].name }}
+          <div class="tooltip-arrow" data-popper-arrow></div>
+        </div>
         <button
+          :data-tooltip-target="`tooltip-default-${tab.sharedObject[item.id].path}`"
           class="inline-block p-4 rounded-t-lg rrr"
           :id="`${tab.sharedObject[item.id].path}-tab`"
           :data-tabs-target="`#${tab.sharedObject[item.id].path}`"
@@ -179,7 +197,7 @@ const selectTab = (tabPath: string, key: number) => {
           :class="
             activeTab.sharedString === tab.sharedObject[item.id].path ||
             (tabTerpilih.sharedNumber === 0 && key === 0)
-              ? 'AAA bg-white !text-[#3a477d] font-bold hover:text-[#3a477d] dark:text-[#3a477d] dark:hover:text-[#3a477d] border-[#3a477d] dark:border-[#3a477d]'
+              ? 'AAA bg-white !text-green-900 font-bold hover:text-green-900 dark:text-green-900 dark:hover:text-green-900 border-green-900 dark:border-green-900'
               : 'BBB inline-block p-4 rounded-t-lg dark:border-transparent text-gray-500 hover:text-gray-600 dark:text-gray-400 border-gray-100 hover:border-gray-300 dark:border-gray-700 dark:hover:text-gray-300'
           "
         >

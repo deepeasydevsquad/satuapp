@@ -17,7 +17,7 @@ defineProps({
     :type="type"
     @click="emit('click')"
     :class="auto ? 'md:w-auto' : ''"
-    class="bg-[#455494] text-white px-4 py-2 rounded-lg hover:bg-[#3a477d] transition-colors duration-200 ease-in-out flex items-center gap-2 w-full justify-center"
+    class="bg-green-900 text-white px-4 py-2 rounded-lg hover:bg-green-800 transition-colors duration-200 ease-in-out flex items-center gap-2 w-full justify-center"
   >
     <slot></slot>
   </button>

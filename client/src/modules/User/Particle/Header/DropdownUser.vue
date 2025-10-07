@@ -62,7 +62,7 @@ function showNotif(payload: { type: 'success' | 'error'; message: string }) {
       @click.prevent="dropdownOpen = !dropdownOpen"
     >
       <span class="hidden text-right lg:block">
-        <span class="block text-sm font-medium text-amra dark:text-white"
+        <span class="block text-sm font-medium text-green-900 dark:text-white"
           >{{
             SettingGlob.sharedObject.type == 'administrator'
               ? SettingGlob.sharedObject.company_name
@@ -70,7 +70,7 @@ function showNotif(payload: { type: 'success' | 'error'; message: string }) {
           }}
           / <b>{{ SettingGlob.sharedObject.company_code }}</b></span
         >
-        <span class="block text-xs font-bold text-amra dark:text-white"
+        <span class="block text-xs font-bold text-green-900 dark:text-white"
           >As {{ SettingGlob.sharedObject.type }}</span
         >
       </span>
