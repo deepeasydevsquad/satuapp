@@ -22,9 +22,7 @@ jobs:
         env:
           VITE_PORT: 3002
         run: |
-          docker build \
-            --build-arg VITE_PORT=3002 \
-            -t muammar88/satuapp_saas_client:v1.0 ./client
+          docker build -t muammar88/satuapp_saas_client:v1.0 ./client
           docker push muammar88/satuapp_saas_client:v1.0
 
       - name: Build and push backend image
