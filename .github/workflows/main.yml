@@ -19,8 +19,6 @@ jobs:
           password: ${{ secrets.DOCKER_HUB_PASS }}
 
       - name: Build and push client image
-        env:
-          VITE_PORT: 3002
         run: |
           docker build -t muammar88/satuapp_saas_client:v1.0 ./client
           docker push muammar88/satuapp_saas_client:v1.0
