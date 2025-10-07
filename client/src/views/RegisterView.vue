@@ -33,10 +33,10 @@
 import { ref } from 'vue';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
-import CompanyDataForm from '@/components/Register/widgets/CompanyDataForm.vue';
-import PackageSelection from '@/components/Register/widgets/PackageSelection.vue';
-import UserDataForm from '@/components/Register/widgets/UserDataForm.vue';
-import Button from '@/components/Register/particles/Button.vue';
+import CompanyDataForm from '@/modules/Register/widgets/CompanyDataForm.vue';
+import PackageSelection from '@/modules/Register/widgets/PackageSelection.vue';
+import UserDataForm from '@/modules/Register/widgets/UserDataForm.vue';
+import Button from '@/modules/Register/particles/Button.vue';
 import { API_URL, APP_NAME } from '@/config/config';
 
 import { useHead } from '@vueuse/head';

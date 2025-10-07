@@ -8,7 +8,7 @@ useHead({
   meta: [{ name: APP_NAME, content: 'Aplikasi manajemen travel Haji dan Umrah' }],
 });
 
-import LoginCard from '@/components/Login/widgets/LoginCard.vue';
+import LoginCard from '@/modules/Login/widgets/LoginCard.vue';
 </script>
 
 <template>
