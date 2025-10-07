@@ -2,11 +2,12 @@ name: CI/CD Deploy Aplikasi Satu apps
 
 on:
   push:
-    branches: [ main ]
+    branches: [main]
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
 
     steps:
       - name: Checkout repo
